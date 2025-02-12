@@ -1,0 +1,21 @@
+version: '3.8'  # Указываем версию Docker Compose
+
+services:
+  notebook:
+    image: jupyter-notebook  # Имя образа для Jupyter Notebook
+    ports:
+      - "8888:8888"  # Пробрасываем порт 8888
+    depends_on:
+      - db  # Зависимость от сервиса db
+
+  db:
+    image: postgres:13  # Используем официальный образ PostgreSQL
+    environment:
+      POSTGRES_USER: myuser  # Имя пользователя
+      POSTGRES_PASSWORD: mypassword  # Пароль
+      POSTGRES_DB: mydatabase  # Имя базы данных
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Тома для хранения данных
+
+volumes:
+  postgres_data:  # Определяем том для хранения данных PostgreSQL
